@@ -567,7 +567,7 @@ void CKLBNetAPI::request_authkey(int timeout)
 	}
 
 	// Generate auth data
-	const char dev_data[] = "{\"Rating\":\"0\",\"Detail\" : \"This is a Android device\"}";
+	const char dev_data[] = "{\"Rating\":\"0\",\"Detail\" : \"This is a iOS device\"}";
 	char auth_data[2048] = "";
 	sprintf(auth_data, "{ \"1\":\"%s\",\"2\": \"%s\", \"3\": \"%s\" }", kc.getLoginKey(), kc.getLoginPw(), base64_encode(dev_data, strlen(dev_data)));
 
@@ -670,6 +670,7 @@ CKLBNetAPI::execute(u32 deltaT)
 				for (int i = 0; i < 32; i++) {
 					sessionKey[i] = aesKeyClient[i] ^ dummy_token_[i];
 				}
+				memcpy(sessionKey_, sessionKey, 32);
 				authkey = false;
 			}
 			DEBUG_PRINT("Current EndPoint: %s", kc.getEndPoint());
@@ -997,25 +998,17 @@ CKLBNetAPI::commandScript(CLuaState& lua)
 				kc.setEndPoint(end_point);
 			}
 
-
 			if (lua.isBool(7) && lua.getBool(7))
 				memcpy(api, end_point, strlen(end_point) + 1);
 			else
 				sprintf(api, "%s%s", kc.getURL(), end_point);
 
-			// lua arg 9 can have key, that we will use for signing our message
 			if (lua.isString(9) && lua.getString(9)) {
 				memcpy(sessionKey, lua.getString(9), 32);
 				sp = true;
-			}
-			// if arg 9 is nil and sp is true, we need to restore our key from backup
-			else if (sp == true) {
+			} else if (sp == true) {
 				memcpy(sessionKey, sessionKey_, 32);
 				sp = false;
-			}
-			// create backup of session key
-			else {
-				memcpy(sessionKey_, sessionKey, 32);
 			}
 
 			// Header list

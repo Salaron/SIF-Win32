@@ -33,13 +33,23 @@ CKLBLuaLibAPP::~CKLBLuaLibAPP() {}
 void
 CKLBLuaLibAPP::addLibrary()
 {
-	addFunction("APP_CallApplication",		CKLBLuaLibAPP::luaCallApplication);
-	addFunction("APP_GetPhysicalMem",		CKLBLuaLibAPP::luaGetPhysicalMem);
-	addFunction("APP_DateTimeNow",			CKLBLuaLibAPP::luaGetDateTimeNow);
+	addFunction("APP_CallApplication",			CKLBLuaLibAPP::luaCallApplication);
+	addFunction("APP_GetPhysicalMem",				CKLBLuaLibAPP::luaGetPhysicalMem);
+	addFunction("APP_DateTimeNow",					CKLBLuaLibAPP::luaGetDateTimeNow);
+	addFunction("APP_SetIdleTimerActivity",	CKLBLuaLibAPP::luaSetIdleTimerActivity);
 }
 
 int
-CKLBLuaLibAPP::luaGetDateTimeNow(lua_State * L) {
+CKLBLuaLibAPP::luaSetIdleTimerActivity(lua_State * L)
+{
+	CLuaState lua(L);
+	lua.print_stack();
+	return 1;
+}	
+
+int
+CKLBLuaLibAPP::luaGetDateTimeNow(lua_State * L) 
+{
 	CLuaState lua(L);
 	lua.retInt(std::time(0));
 	return 1;

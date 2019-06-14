@@ -18,18 +18,10 @@
 #include "CWin32PathConv.h"
 #include "dirent.h"
 #include "DownloadQueue.h"
-#include  <time.h>
 
 int assetSize = 0;
 char aesKeyClient[32] = "";
 char sessionKey[32] = "";
-
-void pirntHex(char a[], int len) {
-	for (int i = 0; i < len; i++) {
-		printf("%x", a[i]);
-	}
-	printf("\n");
-}
 
 static ILuaFuncLib::DEFCONST luaConst[] = {
 //	{ "DBG_M_SWITCH",	DBG_MENU::M_SWITCH },
@@ -376,19 +368,17 @@ CKLBLuaLibASSET::luaGetNMAssetSize(lua_State* L)
 		result[i] = rand() % 60 + 'A';
 	}
 	result[count] = '\0';
-	pirntHex(result, count);
 	assetSize = count;
 	memcpy(aesKeyClient, result, 32);
 	lua.retString(result);
+	free(result);
 	return 1;
 }
 
 s32
 CKLBLuaLibASSET::luaGetNMAsset(lua_State* L)
 {
-	DEBUG_PRINT("ASSET_GetNMAsset");
 	CLuaState lua(L);
-	lua.print_stack();
 	char key_base[] = "eit4Ahph4aiX4ohmephuobei6SooX9xo";
 	lua.retString(key_base);
 	return 1;
@@ -397,18 +387,22 @@ CKLBLuaLibASSET::luaGetNMAsset(lua_State* L)
 s32
 CKLBLuaLibASSET::luaSetNMAsset(lua_State* L)
 {
-	DEBUG_PRINT("ASSET_SetNMAsset");
 	CLuaState lua(L);
 	lua.print_stack();
 	const char* a = lua.getString(1);
 	const char* b = lua.getString(2);
-	char *result = (char *)malloc(assetSize + 1);
+
+ 	char* result = (char*)malloc(assetSize + 1);
 	for (int i = 0; i < assetSize; i++) {
 		result[i] = a[i] ^ b[i];
 	}
-	result[assetSize] = 0;
+	result[assetSize] = '\0';
 	memcpy(sessionKey, result, assetSize);
-	lua.retString(result);
+	if (strlen(b) == 16) 
+		lua_pushlstring(L, result, 16);
+	else 
+		lua_pushlstring(L, result, 32);
+	free(result);
 	return 1;
 }
 
