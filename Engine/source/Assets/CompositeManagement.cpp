@@ -1860,20 +1860,6 @@ bool CKLBCompositeAsset::createSubTreeRecursive(u16 groupID, CKLBUITask* pParent
 
 	resetTmpBuff();
 
-	// workaround of anchor?
-	switch (templateDef->anchor) {
-	case 2:
-		// fix text on splash
-		// todo
-		if (templateDef->y < 0) {
-			templateDef->y = 640 - templateDef->height;
-		}
-		break;
-	default: 
-		break;
-
-	}
-
 	bool execNodeSetup = true;
 	if (templateDef->classID != NONE_CLASSID) {
 

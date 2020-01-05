@@ -376,9 +376,7 @@ void RenderContext::drawText(s32 x, s32 y, char* string, u32 color, void* font, 
 	//
 	// 2. Remove {b} from string for now (TODO: handle that)
 	//
-	if (string[0] == *"{b") {
-		memmove(string, string + 4, strlen(string) - 3 + 1);
-	}
+	if (string[0] == *"{b") string += 4; // {b5}
 	
 	//
 	// 3. Render text
