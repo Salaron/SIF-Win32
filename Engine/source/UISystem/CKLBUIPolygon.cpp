@@ -86,55 +86,21 @@ CKLBUIPolygon::create(CKLBUITask* pParent, CKLBNode* pNode, u32 order, u32 maxPo
 	return pTask;
 }
 
+// TODO?
 bool CKLBUIPolygon::init(CKLBUITask* pParent, CKLBNode* pNode, u32 order, u32 maxPoint) {
-    /*if(!setupNode()) { return false; }
-	bool bResult = initCore(order, maxPoint);
-	bResult = registUI(pParent, bResult);
-	if(pNode) {
-		pParent->getNode()->removeNode(getNode());
-		pNode->addNode(getNode());
-	}
-	return bResult;*/
 	return true;
 }
 
 bool 
 CKLBUIPolygon::initCore(u32 order, u32 maxPoint)
 {
-	/*if(!setupPropertyList((const char**)ms_propItems,SizeOfArray(ms_propItems))) {
-		return false;
-	}
-
-	m_maxpointcount = maxPoint;
-	m_order         = order;
-
-	// 必要とされるオブジェクトを生成する
-	CKLBRenderingManager& pRdrMgr = CKLBRenderingManager::getInstance();
-
-	m_pPolygon = pRdrMgr.allocateCommandPolyline(m_maxpointcount, order);
-	if(!m_pPolygon) {
-		return false;
-	}
-
-	// 二つのDynSpriteを自分のNodeに登録
-	getNode()->setRender(m_pPolygon);
-	getNode()->setRenderOnDestroy(true);
-
-	getNode()->markUpMatrix();*/
-	
 	return true;
 }
 
 bool
 CKLBUIPolygon::initUI(CLuaState& lua)
 {
-	lua.print_stack();
-	/*int argc = lua.numArgs();
-    if(argc > ARG_NUMS || argc < ARG_REQUIRE) { return false; }
-
-	u32 order = lua.getInt(ARG_ORDER);
-	u32 maxpoint = lua.getInt(ARG_MAXPOINTCNT);*/
-	return true;//initCore(order,maxpoint);
+	return true;
 }
 
 int
@@ -145,54 +111,6 @@ CKLBUIPolygon::commandUI(CLuaState& lua, int argc, int cmd)
 	lua.retString("123");
 	lua.retBoolean(true);
 	return 1;
-	/*
-	switch(cmd)
-	{
-	case UI_POLYLINE_SET_POINTCOUNT:
-		{
-			bool result = false;
-			if(argc == 3) {
-				int ptsCount = lua.getInt(3);
-				setPointCount(ptsCount);
-				result = true;
-			}
-			lua.retBoolean(result);
-			ret = 1;
-		}
-		break;
-	case UI_POLYLINE_SET_POINT:
-		{
-			bool result = false;
-			if(argc == 5) {
-				int idx = lua.getInt(3);
-				float x = lua.getFloat(4);
-				float y = lua.getFloat(5);
-				setPoint(idx,x,y);
-				result = true;
-			}
-			lua.retBoolean(result);
-			ret = 1;
-		}
-		break;
-	case UI_POLYLINE_SET_COLOR:
-		{
-			bool result = false;
-			if(argc == 4) {
-				u32 alpha = lua.getInt(3);
-				u32 rgb = lua.getInt(4);
-
-				u32 color = (alpha << 24) | (rgb & 0xffffff);
-
-				setColor(color);
-				result = true;
-			}
-			lua.retBoolean(result);
-			ret = 1;
-
-		}
-		break;
-	}
-	return ret;*/
 }
 
 void

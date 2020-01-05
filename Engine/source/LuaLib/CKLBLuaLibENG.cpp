@@ -252,8 +252,6 @@ NotificationManager::NotificationManager():CKLBLuaTask() {
 }
 
 bool NotificationManager::initScript(CLuaState& lua) {
-	DEBUG_PRINT("initScript Called");
-	lua.print_stack();
 	int argc = lua.numArgs();
 
 	const char * callbackonNotificationOfPermissionGranted = (argc >= 1) ? lua.getString(1) : NULL;
@@ -264,13 +262,10 @@ bool NotificationManager::initScript(CLuaState& lua) {
 }
 
 int NotificationManager::commandScript(CLuaState& lua) {
-	DEBUG_PRINT("CommandScript Called");
-	lua.print_stack();
 	return 0;
 }
 
 void NotificationManager::execute(u32 deltaT) {
-	DEBUG_PRINT("execute Called, step %d", m_eStep);
 	switch (m_eStep)
 	{
 		case S_REQUIRE_PERMISSION:		exec_require_permission(deltaT); break;
@@ -278,17 +273,13 @@ void NotificationManager::execute(u32 deltaT) {
 }
 
 void NotificationManager::die() {
-	DEBUG_PRINT("die Called");
 }
 
 void NotificationManager::exec_require_permission(u32 deltaT) {
-	DEBUG_PRINT("exec_require_permission Called");
 }
 
 int NotificationManage(lua_State * L) {
 	CLuaState lua(L);
-	DEBUG_PRINT("Notification Manage Called");
-	lua.print_stack();
 	NotificationManager* NMP = KLBNEW(NotificationManager);
 	NMP->initScript(lua);
 	lua.retPointer(NMP);

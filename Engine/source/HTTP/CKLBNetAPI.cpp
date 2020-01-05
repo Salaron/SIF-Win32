@@ -799,7 +799,6 @@ bool
 CKLBNetAPI::initScript(CLuaState& lua)
 {
 	int argc = lua.numArgs();
-	lua.print_stack();
 
 	if (argc < 7) { return false; }
 
@@ -900,7 +899,6 @@ CKLBNetAPI::commandScript(CLuaState& lua)
 		lua.retBoolean(false);
 		return 1;
 	}
-	lua.print_stack();
 	int cmd = m_request_type = lua.getInt(2);
 	int ret = 1;
 

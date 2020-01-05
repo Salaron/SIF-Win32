@@ -243,9 +243,15 @@ void CLuaState::print_stack() {
 			}
 			case LUA_TTABLE:
 			{
-				// Only one level currently
+				extern bool SIF_Win32_IS_RELEASE;
 				printf("\nLUA TABLE DUMP START STACK %d\n", i);
-				klb_assert(luaL_loadstring(m_L, "for a,b in pairs(({...})[1])do print(a,b)end") == 0, "Syntax error");
+				// only one depth level
+				char* str = "for a,b in pairs(({...})[1])do print(a,b)end";
+				if (SIF_Win32_IS_RELEASE == false) {
+					// in debug mode we can use SIF's lua debug library to print table
+					str = "import(\"Debug\").print_inspect(...)";
+				}
+				klb_assert(luaL_loadstring(m_L, str) == 0, "Syntax error");
 				retValue(i);
 				klb_assert(lua_pcall(m_L, 1, 0, 0) == 0, "Syntax error");
 				printf("LUA TABLE DUMP END STACK %d\n", i);

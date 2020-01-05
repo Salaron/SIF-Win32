@@ -43,7 +43,6 @@ int
 CKLBLuaLibAPP::luaSetIdleTimerActivity(lua_State * L)
 {
 	CLuaState lua(L);
-	lua.print_stack();
 	return 1;
 }	
 

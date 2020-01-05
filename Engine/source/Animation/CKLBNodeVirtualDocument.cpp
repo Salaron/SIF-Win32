@@ -360,7 +360,7 @@ u32 getTestColor() {
 }
 #endif
 
-void RenderContext::drawText(s32 x , s32 y , char* string  , u32 color, void* font, bool docMode) {
+void RenderContext::drawText(s32 x, s32 y, char* string, u32 color, void* font, bool docMode) {
 	IPlatformRequest& platform = CPFInterface::getInstance().platform();
 
 	x -= offsetX;
@@ -374,7 +374,14 @@ void RenderContext::drawText(s32 x , s32 y , char* string  , u32 color, void* fo
 	}
 
 	//
-	// 2. Render text
+	// 2. Remove {b} from string for now (TODO: handle that)
+	//
+	if (string[0] == *"{b") {
+		memmove(string, string + 4, strlen(string) - 3 + 1);
+	}
+	
+	//
+	// 3. Render text
 	//
 	platform.renderText(	string,
 							font,

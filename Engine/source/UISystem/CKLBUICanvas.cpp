@@ -100,9 +100,9 @@ CKLBUICanvas::initUI(CLuaState& lua)
 
 	u32 order = lua.getInt(ARG_ORDER);
 
-	const char* cb  = lua.getString(ARG_CALLBACK);
 	float x         = lua.getFloat(ARG_X);
 	float y         = lua.getFloat(ARG_Y);
+	const char* cb  = lua.isNil(ARG_CALLBACK) ? NULL : lua.getString(ARG_CALLBACK);
 
 	return initCore(order, x,y, 
 		lua.getInt(ARG_VERTEX_MAX),

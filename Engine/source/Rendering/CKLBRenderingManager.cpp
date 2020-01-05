@@ -1716,7 +1716,6 @@ void CKLBRenderCommand::changeOrder(CKLBRenderingManager& pRdr, u32 newOrder) {
 		return;
 	}
 
-//	if (this->m_pNext || this->m_pNext) {
 	if (this->m_pPrev || this->m_pNext) {
 		pRdr.removeFromRendering(this);
 		pRdr.addToRendering(this, newOrder);

@@ -284,8 +284,6 @@ int get_asset_path_if_not_found(lua_State* L)
 	CLuaState lua(L);
 	IPlatformRequest& ir = CPFInterface::getInstance().platform();
 
-	lua.print_stack();
-
 	const char* asset_path = lua.getString(1);
 	char* asset_newpath = new char[strlen(asset_path) + 14];
 
@@ -339,7 +337,6 @@ int asset_start_download(lua_State* L)
 {
 	CLuaState lua(L);
 
-	lua.print_stack();
 	MicroDownload::Queue(lua.getString(1), lua.getString(2), lua.getString(3));
 	lua.retBool(true);
 
@@ -350,7 +347,6 @@ int asset_kill_download(lua_State* L)
 {
 	CLuaState lua(L);
 
-	lua.print_stack();
 	MicroDownload::DeleteAll();
 	lua.retBool(true);
 
@@ -361,7 +357,6 @@ s32
 CKLBLuaLibASSET::luaGetNMAssetSize(lua_State* L)
 {
 	CLuaState lua(L);
-	lua.print_stack();
 	int count = lua.getInt(1);
 	char* result = (char*)malloc(count + 1);
 	for (int i = 0; i < count; i++) {
@@ -388,7 +383,6 @@ s32
 CKLBLuaLibASSET::luaSetNMAsset(lua_State* L)
 {
 	CLuaState lua(L);
-	lua.print_stack();
 	const char* a = lua.getString(1);
 	const char* b = lua.getString(2);
 
@@ -419,7 +413,6 @@ s32
 CKLBLuaLibASSET::enableTextureBorderPatch(lua_State* L)
 {
 	CLuaState lua(L);
-	lua.print_stack();
 	int args = lua.numArgs();
 	lua.retBool(args == 1);
 	return 1;

@@ -421,7 +421,7 @@ CKLBUIScore::commandUI(CLuaState& lua, int argc, int cmd)
 		break;
 	case UI_SCORE_SET:
 		{
-			if(argc != 3) {
+			if(argc != 3 || !lua.isNum(3)) {
 				lua.retNil();
 				ret = 1;
 				break;

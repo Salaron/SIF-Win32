@@ -157,7 +157,6 @@ CKLBUpdateZip::initScript(CLuaState& lua)
 	// bool res = true;
 
 	int argc = lua.numArgs();
-	lua.print_stack();
 
 	// 引数チェック
 	if(argc < ARG_ZIPREQUIRE || argc > ARG_ZIPNUM) {
@@ -264,8 +263,6 @@ int
 CKLBUpdate::commandScript(CLuaState& lua)
 {
 	int argc = lua.numArgs();
-	DEBUG_PRINT("commandScript print stack");
-	lua.print_stack();
 	if(argc < 2) {
 		lua.retBoolean(false);
 		return 1;
@@ -584,8 +581,6 @@ int DownloadClient(lua_State* L)
 {
 	CLuaState lua(L);
 	int argc = lua.numArgs();
-	DEBUG_PRINT("%d", argc);
-	lua.print_stack();
 	CKLBUpdate* aa = KLBNEW(CKLBUpdate);
 	aa->initScript(lua);
 	lua.retPointer(aa);

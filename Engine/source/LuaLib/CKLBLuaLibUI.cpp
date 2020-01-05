@@ -102,7 +102,6 @@ int
 CKLBLuaLibUI::luaUIShader(lua_State * L)
 {
 	CLuaState lua(L);
-	lua.print_stack();
 	lua.retBool(false);
 	return 1;
 }

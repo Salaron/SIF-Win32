@@ -89,32 +89,20 @@ int CKLBLuaLibGL::luaGLGetRenderingAPI(lua_State * L) {
 
 int CKLBLuaLibGL::luaGLBGBorder(lua_State * L) {
 	CLuaState lua(L);
-	lua.retBool(false);
+	lua.retBool(true);
 	return 1;
 }
 
 int CKLBLuaLibGL::luaGLCreateShader(lua_State * L) {
 	CLuaState lua(L);
-	if (lua.numArgs() == 3) {
-		lua.retBool(true);
-		return 1;
-	}
-	else {
-		lua.retBool(false);
-		return 1;
-	}
+	lua.retBool(false);
+	return 1;
 }
 
 int CKLBLuaLibGL::luaGLDestroyShader(lua_State * L) {
 	CLuaState lua(L);
-	if (lua.numArgs() == 1) {
-		lua.retBool(true);
-		return 1;
-	}
-	else {
-		lua.retBool(false);
-		return 1;
-	}
+	lua.retBool(false);
+	return 1;
 }
 
 int CKLBLuaLibGL::luaGLGetScreenScale(lua_State * L) {

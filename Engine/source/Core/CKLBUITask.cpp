@@ -56,7 +56,9 @@ bool
 CKLBUITask::setupNode()
 {
 	m_pUINode = KLBNEW(CKLBSplineNode);
-    if(!m_pUINode) { return false; }
+    if(!m_pUINode) { 
+		return false; 
+	}
 	m_pUINode->setUITask(this);
 	m_pUINode->resetAsInternalNode();
 	m_pUINode->setName("CKLBUITask Node");

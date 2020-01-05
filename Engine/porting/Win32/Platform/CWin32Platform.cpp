@@ -39,6 +39,7 @@
 
 #include "FontRendering.h"
 
+constexpr auto LATEST_APK_VERSION = "6.9.1";
 bool CWin32Platform::g_useDecryption = true;
 
 void CWin32Platform::setEncrypt(bool encrypt) {
@@ -190,8 +191,6 @@ CWin32Platform::nanotime()
 	s64 val = counter.QuadPart * 1000000000LL / freq.QuadPart;
 	return val;
 }
-
-#define LATEST_APK_VERSION "6.5.4"
 
 const char*
 CWin32Platform::getBundleVersion() {

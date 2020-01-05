@@ -181,9 +181,10 @@ public:
 		CHARTYPE,
 		VOL_AUDIO_UP,
 		VOL_AUDIO_DOWN,
-		anchorX,
-		anchorY,
-		anchor
+		ANCHOR_X,
+		ANCHOR_Y,
+		ANCHOR,
+		FIT
 	};
 private:
 	bool init();
@@ -369,9 +370,10 @@ public:
 	u8	volAudioUp;
 	u8	volAudioDown;
 
-	u8		anchorX;
-	u8		anchorY;
-	u8		anchor;
+	u8	anchorX;
+	u8	anchorY;
+	u8	anchor;
+	u8  fit;
 
 	u8	flag[4];
 	bool	visible;
