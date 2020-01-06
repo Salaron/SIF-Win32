@@ -1854,6 +1854,24 @@ bool CKLBCompositeAsset::createSubTreeRecursive(u16 groupID, CKLBUITask* pParent
 
 	u32 newPrio = priorityOffset + templateDef->priority;
 
+	// THIS IS A REALLY DIRTY WORKAROUND
+	// HERE WE ADJUST TO VALUES, NOT VALUES TO US 
+	// FIXME FIXME FIXME FIXME FIXME
+	if (templateDef->anchor == 2 && templateDef->anchorY == 16 && (
+		// spash text and footer
+		templateDef->y == 640 || templateDef->y == 100)
+	) {
+		templateDef->y = 0;
+	}
+	else if (templateDef->anchor == 2 && templateDef->anchorY == 16 && templateDef->y == -640 && templateDef->height) {
+		// navi
+		templateDef->y = 640 - templateDef->height;
+	}
+	else if (templateDef->anchor == 2 && templateDef->anchorY == 16 && templateDef->y == 194) {
+		// secretbox
+		templateDef->y = 640 - templateDef->y;
+	}
+
 	klb_assert(
 		((((s64)priorityOffset + (s64)templateDef->priority) >> 32) != 0)
 		|| ((((s64)priorityOffset + (s64)templateDef->priority) >> 32) != -1), "Overflow or underflow");

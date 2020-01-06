@@ -56,11 +56,27 @@ CKLBLuaLibGL::addLibrary()
 	addFunction("GL_DestroyShader",				CKLBLuaLibGL::luaGLDestroyShader			);
 }
 
-//TODO
 int CKLBLuaLibGL::luaGLComputeMatrixFromToRect(lua_State * L) {
 	CLuaState lua(L);
-	lua.retInt(0);
-	return 1;
+
+	if (lua.numArgs() > 7) {
+		float e = 0.0;
+		if (lua.isNum(8)) {
+			e = lua.getFloat(8);
+		}
+
+		lua.retFloat((lua.getFloat(7) - lua.getFloat(5)) / (lua.getFloat(3) - lua.getFloat(1)));
+		lua.retFloat(0.0);
+		lua.retFloat(0.0);
+		lua.retFloat((e - lua.getFloat(6)) / (lua.getFloat(4) - lua.getFloat(2)));
+		lua.retFloat(lua.getFloat(5) - lua.getFloat(1));
+		lua.retFloat(lua.getFloat(6) - lua.getFloat(2));
+		return 6;
+	}
+	else {
+		lua.retBool(false);
+		return 1;
+	}
 }
 
 int CKLBLuaLibGL::luaGLIsSafeAreaScreen(lua_State * L) {
@@ -84,7 +100,9 @@ int CKLBLuaLibGL::luaGLGetUnsafeAreaSize(lua_State * L) {
 }
 
 int CKLBLuaLibGL::luaGLGetRenderingAPI(lua_State * L) {
-	return 0;
+	CLuaState lua(L);
+	lua.retInt(2);
+	return 1;
 }
 
 int CKLBLuaLibGL::luaGLBGBorder(lua_State * L) {

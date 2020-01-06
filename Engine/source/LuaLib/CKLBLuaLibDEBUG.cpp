@@ -42,8 +42,21 @@ CKLBLuaLibDEBUG::addLibrary()
 	addFunction("DEBUG_SetCallback",		CKLBLuaLibDEBUG::luaDBGSetCallback);
 	addFunction("DEBUG_AddItem",			CKLBLuaLibDEBUG::luaDBGSetMenu);
 	addFunction("DEBUG_DelItem",			CKLBLuaLibDEBUG::luaDBGRemoveMenu);
-	addFunction("requestExtensionEvent",	requestExtensionEvent);
+	addFunction("requestExtensionEvent",    CKLBLuaLibDEBUG::luaRequestExtensionEvent);
+	addFunction("getGhostPlayerActivity",   CKLBLuaLibDEBUG::luaGetGhostPlayerActivity);
+	addFunction("setGhostPlayerActivity",	CKLBLuaLibDEBUG::luaGetGhostPlayerActivity);
 }
+
+int
+CKLBLuaLibDEBUG::luaRequestExtensionEvent(lua_State* L) {
+	return 0;
+}
+
+int
+CKLBLuaLibDEBUG::luaGetGhostPlayerActivity(lua_State* L) {
+	return 0;
+}
+
 
 int
 CKLBLuaLibDEBUG::luaDBGRemoveMenu(lua_State * L)

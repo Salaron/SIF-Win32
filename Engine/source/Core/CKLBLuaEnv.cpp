@@ -64,14 +64,6 @@ int addExtMsg(lua_State* L)
 	return 0;
 }
 
-/* SIF v4 fix */
-int getGhostPlayerActivity(lua_State* L)
-{
-	lua_pushboolean(L, 0);
-
-	return 1;
-}
-
 typedef int(*snprintf_t)(char* , size_t , const char * , ...);
 
 /* Scorematch fix */
@@ -265,8 +257,6 @@ CKLBLuaEnv::setupLuaEnv()
 	lua_setglobal(m_L, "eventNoticing");
 	lua_pushcfunction(m_L, &addExtMsg);
 	lua_setglobal(m_L, "addExtMsg");
-	lua_pushcfunction(m_L, &getGhostPlayerActivity);
-	lua_setglobal(m_L, "getGhostPlayerActivity");
 	lua_pushcfunction(m_L, &HASH_SHA1);
 	lua_setglobal(m_L, "HASH_SHA1");
     

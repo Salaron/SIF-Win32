@@ -40,9 +40,11 @@ public:
 	static void endMenu		();
 	static void removeMenu	(const char * key);
 private:
-	static int luaDBGSetCallback	(lua_State * L);
-	static int luaDBGSetMenu		(lua_State * L);
-	static int luaDBGRemoveMenu		(lua_State * L);
+	static int luaRequestExtensionEvent (lua_State * L);
+	static int luaGetGhostPlayerActivity(lua_State * L);
+	static int luaDBGSetCallback		(lua_State * L);
+	static int luaDBGSetMenu			(lua_State * L);
+	static int luaDBGRemoveMenu			(lua_State * L);
 };
 
 

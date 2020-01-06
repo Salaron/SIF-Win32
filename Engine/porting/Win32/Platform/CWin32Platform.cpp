@@ -729,6 +729,12 @@ CWin32Platform::callApplication(IPlatformRequest::APP_TYPE type, ... )
 	default:
 		result = false;
 		break;
+	case IPlatformRequest::APP_BROWSER:
+		{
+			const char* url = va_arg(ap, const char*);
+			ShellExecute(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
+		}
+		break;
 
 	case IPlatformRequest::APP_UPDATE:
 		{

@@ -461,6 +461,7 @@ CWin32WebWidget::create(IWidget::CONTROL type, int id, const char * caption,
 								(HMENU)0, (HINSTANCE)GetModuleHandle(NULL), NULL);
 			IUnknown * hUnknown;
 			if(AtlAxGetControl(hWnd, &hUnknown) == S_OK) {
+				// FIXME: set headers after navigation to other page
 				IWebBrowser2* browser;
 				hUnknown->QueryInterface(IID_IWebBrowser2,(void **)&browser);
 				VARIANT url, header, nil;
@@ -503,7 +504,7 @@ CWin32WebWidget::create(IWidget::CONTROL type, int id, const char * caption,
 				}
 
 				char *cHeader = KLBNEWA(char, 2000);
-				sprintf(cHeader, "API-Model: straightforward\r\nBundle-Version: %s\r\nClient-Version: %s\r\nOS-Version: %s\r\nOS: %s\r\nPlatform-Type: %d\r\nApplication-ID: %s\r\nTime-Zone: JST\r\nRegion: %s\r\n%s%s"
+				sprintf(cHeader, "accept: */*\r\nAPI-Model: straightforward\r\nBundle-Version: %s\r\nClient-Version: %s\r\nOS-Version: %s\r\nOS: %s\r\nPlatform-Type: %d\r\nApplication-ID: %s\r\nTime-Zone: JST\r\nRegion: %s\r\n%s%s\r\nX-Requested-With: klb.android.lovelive"
 					, CPFInterface::getInstance().platform().getBundleVersion(), client, os_version, platform_info, type, applicationId, region, authorize, user_id);
 				KLBDELETEA(authorize);
 				KLBDELETEA(user_id);
