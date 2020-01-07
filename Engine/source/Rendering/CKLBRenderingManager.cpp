@@ -535,6 +535,8 @@ void CKLBRenderingManager::initShaderSystem() {
 		m_shaderDef[n].m_definition		= NULL;
 		m_shaderDef[n].m_paramList		= NULL;
 		m_shaderDef[n].m_pixelShader	= NULL;
+		m_shaderDef[n].m_vertexShader	= NULL;
+		m_shaderDef[n].m_name			= NULL;
 	}
 	m_shaderInstanceList = NULL;
 	m_stackParamFiller	 = m_stackParam;
@@ -585,7 +587,7 @@ void CKLBRenderingManager::completeParameter() {
 	m_stackParamFiller += 4;
 }
 
-u32 CKLBRenderingManager::createShaderDefinition(const char* shaderCode) {
+u32 CKLBRenderingManager::createShaderDefinition(const char* shaderName, const char* vertexSource, const char* pixelSource) {
 
 #ifdef OPENGL2
 	CKLBOGLWrapper&		pOGLMgr	= CKLBOGLWrapper::getInstance();
@@ -636,29 +638,56 @@ u32 CKLBRenderingManager::createShaderDefinition(const char* shaderCode) {
 	// Reset param stream buffer.
 	m_stackParamFiller	 = m_stackParam;
 
-	CShader*			pixelShader		= pOGLMgr.createShader(shaderCode, CKLBOGLWrapper::PIXEL_SHADER, paramsShader);
-	CShaderSet*			shaderSet		= NULL;
-	if (pixelShader) {
-		// Map the shader together.
-		shaderSet	= pOGLMgr.createShaderSet(m_pVShader, pixelShader);
-		if (shaderSet) {
-			for (int n=0; n < SHADER_DEF_MAX; n++) {
-				if (!m_shaderDef[n].m_definition) {
-					m_shaderDef[n].m_definition		= shaderSet;
-					m_shaderDef[n].m_pixelShader	= pixelShader;
-					m_shaderDef[n].m_paramList		= pParam;
+	// Check if this sheader already defined
+	for (int n = 0; n < SHADER_DEF_MAX; n++) {
+		klb_assert(m_shaderDef[n].m_name != shaderName, "A shader definition with name %s is already defined", shaderName);
+	}
 
-					return n;
+	const static SParam paramsVert[] = {
+		{	"pos_attr"		,false		,1			,VEC2 | VERTEX },
+		{	"uv_attr"		,false		,2			,VEC2 | TEXTURE},
+		{   "col_attr"		,false		,3			,VEC4BYTE | COLOR},
+		{	""				,false		,0			,END_LIST}
+	};
+
+	CShader*			vertexShader	= pOGLMgr.createShader(vertexSource, CKLBOGLWrapper::VERTEX_SHADER, paramsVert);
+	CShader*			pixelShader		= pOGLMgr.createShader(pixelSource, CKLBOGLWrapper::PIXEL_SHADER, paramsShader);
+	CShaderSet*			shaderSet		= NULL;
+	if (vertexShader) {
+		if (pixelShader) {
+			// Map the shader together.
+			shaderSet = pOGLMgr.createShaderSet(vertexShader, pixelShader);
+			if (shaderSet) {
+				for (int n = 0; n < SHADER_DEF_MAX; n++) {
+					if (!m_shaderDef[n].m_definition) {
+						m_shaderDef[n].m_definition = shaderSet;
+						m_shaderDef[n].m_pixelShader = pixelShader;
+						m_shaderDef[n].m_vertexShader = vertexShader;
+						m_shaderDef[n].m_paramList = pParam;
+						m_shaderDef[n].m_name = shaderName;
+
+						return n;
+					}
 				}
+				pOGLMgr.releaseShaderSet(shaderSet);
 			}
-			pOGLMgr.releaseShaderSet(shaderSet);
+			pOGLMgr.releaseShader(pixelShader);
 		}
-		pOGLMgr.releaseShader(pixelShader);
+		pOGLMgr.releaseShader(vertexShader);
 	}
 #else
 	klb_assertAlways("OpenGL 1.1 Profile does not support shader APIs");
 #endif
 	return NULL_IDX;
+}
+
+u32 CKLBRenderingManager::getShaderDefinition(const char* shaderName) {
+	for (int n = 0; n < SHADER_DEF_MAX; n++) {
+		if (m_shaderDef[n].m_name == shaderName) {
+			return n;
+		}
+	}
+	klb_assertAlways("A shader definition with name %s is not defined", shaderName);
 }
 
 void CKLBRenderingManager::destroyShaderDefinition(u32 shaderDefinition) {
@@ -670,14 +699,16 @@ void CKLBRenderingManager::destroyShaderDefinition(u32 shaderDefinition) {
 
 		pOGLMgr.releaseShaderSet(m_shaderDef[shaderDefinition].m_definition);
 		pOGLMgr.releaseShader(m_shaderDef[shaderDefinition].m_pixelShader);
+		pOGLMgr.releaseShader(m_shaderDef[shaderDefinition].m_vertexShader);
 		m_shaderDef[shaderDefinition].m_definition	= NULL;
 		m_shaderDef[shaderDefinition].m_pixelShader = NULL;
+		m_shaderDef[shaderDefinition].m_vertexShader = NULL;
+		m_shaderDef[shaderDefinition].m_name = NULL;
 	}
 }
 
 // Instance Slot
 void* CKLBRenderingManager::instanceShader(u32 shaderDefinition, u32 startRange, u32 endRange) {
-	//
 	klb_assert(startRange < endRange,						"Invalid Range");
 	klb_assert(shaderDefinition < SHADER_DEF_MAX,			"Invalid Shader Index");
 
@@ -707,6 +738,8 @@ void* CKLBRenderingManager::instanceShader(u32 shaderDefinition, u32 startRange,
 			// Shader Registered.
 			pInst->m_paramList		= m_shaderDef[shaderDefinition].m_paramList;
 			pInst->m_pNext			= m_shaderInstanceList;
+			pInst->m_startState		= pStartState;
+			pInst->m_endState		= pEndState;
 			m_shaderInstanceList	= pInst;
 
 			// Setup Start & End
@@ -725,10 +758,15 @@ void* CKLBRenderingManager::instanceShader(u32 shaderDefinition, u32 startRange,
 	return NULL;
 }
 
-void CKLBRenderingManager::removeShader(void* /*instanceShader*/) {
+void CKLBRenderingManager::removeShader(void* instanceShader) {
+	S_SHADERINSTANCE* pInst = (S_SHADERINSTANCE *)instanceShader;
+	this->removeFromRendering(pInst->m_startState);
+	this->removeFromRendering(pInst->m_endState);
 
-	// TODO.	
-
+	this->releaseCommand(pInst->m_startState);
+	this->releaseCommand(pInst->m_endState);
+	KLBDELETE(pInst);
+	m_shaderInstanceList = NULL;
 }
 
 u32 searchID(u8* stream, const char* name) {
@@ -741,22 +779,22 @@ u32 searchID(u8* stream, const char* name) {
 	return NULL_IDX;
 }
 
-void CKLBRenderingManager::setShaderParamI(void* instanceShader, const char* name, GLint* value) {
+void CKLBRenderingManager::setShaderParamI(void* instanceShader, CShaderInstance::SHADER type, const char* name, GLint* value) {
 	S_SHADERINSTANCE* pInst = (S_SHADERINSTANCE*)instanceShader;
 	u32 uniformID = searchID(pInst->m_paramList, name);
-	pInst->m_pInstanceShader->setUniformI(CShaderInstance::PIXEL_SHADER, uniformID, value);
+	pInst->m_pInstanceShader->setUniformI(type, uniformID, value);
 }
 
-void CKLBRenderingManager::setShaderParamF(void* instanceShader, const char* name, GLfloat* value) {
+void CKLBRenderingManager::setShaderParamF(void* instanceShader, CShaderInstance::SHADER type, const char* name, GLfloat* value) {
 	S_SHADERINSTANCE* pInst = (S_SHADERINSTANCE*)instanceShader;
 	u32 uniformID = searchID(pInst->m_paramList, name);
-	pInst->m_pInstanceShader->setUniformF(CShaderInstance::PIXEL_SHADER, uniformID, value);
+	pInst->m_pInstanceShader->setUniformF(type, uniformID, value);
 }
 
-void CKLBRenderingManager::setShaderParamTexture(void* instanceShader, const char* name, CTextureUsage* value) {
+void CKLBRenderingManager::setShaderParamTexture(void* instanceShader, CShaderInstance::SHADER type, const char* name, CTextureUsage* value) {
 	S_SHADERINSTANCE* pInst = (S_SHADERINSTANCE*)instanceShader;
 	u32 uniformID = searchID(pInst->m_paramList, name);
-	pInst->m_pInstanceShader->setUniformTexture(CShaderInstance::PIXEL_SHADER, uniformID, value);
+	pInst->m_pInstanceShader->setUniformTexture(type, uniformID, value);
 }
 
 

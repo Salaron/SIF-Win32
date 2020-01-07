@@ -19,7 +19,6 @@ private:
 public:
 	virtual u32 getClassID();
 
-	static CKLBUIShader* create(const char* name, u32 startPrio, u32 endPrio);
 	bool initUI(CLuaState& lua);
 	int commandUI(CLuaState& lua, int argc, int cmd);
 
@@ -34,7 +33,6 @@ private:
 	u32						m_sheaderDefinition;
 	void*					m_sheaderInstance;
 
-	void* m_clipHandle;
 	static PROP_V2			ms_propItems[];
 };
 

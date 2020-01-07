@@ -352,7 +352,9 @@ private:
 	struct S_SHADERDEF {
 		CShaderSet*			m_definition;
 		CShader*			m_pixelShader;
+		CShader*			m_vertexShader;
 		u8*					m_paramList;
+		const char*			m_name;
 	};
 
 	struct S_SHADERINSTANCE {
@@ -361,6 +363,8 @@ private:
 		u32					m_min;
 		u32					m_max;
 		u8*					m_paramList;
+		CKLBRenderState*	m_startState;
+		CKLBRenderState*	m_endState;
 	};
 
 	#define SHADER_DEF_MAX		(20)
@@ -380,15 +384,16 @@ protected:
 	void completeParameter		();
 public:
 	void stackParameter			(const char* name, u8 type, QUALITY_TYPE quality);
-	u32  createShaderDefinition	(const char* shaderCode);
+	u32  createShaderDefinition	(const char* shaderName, const char* vertexSource, const char* pixelSource);
+	u32  getShaderDefinition	(const char* shaderName);
 	void destroyShaderDefinition(u32 shaderDefinition);
 	
 	void* instanceShader		(u32 shaderDefinition, u32 startRange, u32 endRange);
 	void removeShader			(void* instanceShader);
 	
-	void setShaderParamI		(void* instanceShader, const char* name, GLint* value);
-	void setShaderParamF		(void* instanceShader, const char* name, GLfloat* value);
-	void setShaderParamTexture	(void* instanceShader, const char* name, CTextureUsage* value);
+	void setShaderParamI		(void* instanceShader, CShaderInstance::SHADER type, const char* name, GLint* value);
+	void setShaderParamF		(void* instanceShader, CShaderInstance::SHADER type, const char* name, GLfloat* value);
+	void setShaderParamTexture	(void* instanceShader, CShaderInstance::SHADER type, const char* name, CTextureUsage* value);
 	//======================================================================================
 	//  /Shader support
 	//======================================================================================

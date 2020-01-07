@@ -54,6 +54,7 @@ CKLBLuaLibGL::addLibrary()
 	addFunction("GL_BGBorder",					CKLBLuaLibGL::luaGLBGBorder					);
 	addFunction("GL_CreateShader",				CKLBLuaLibGL::luaGLCreateShader				);
 	addFunction("GL_DestroyShader",				CKLBLuaLibGL::luaGLDestroyShader			);
+	addFunction("GL_StackShaderParam",			CKLBLuaLibGL::luaGLStackShaderParam			);
 }
 
 int CKLBLuaLibGL::luaGLComputeMatrixFromToRect(lua_State * L) {
@@ -113,7 +114,30 @@ int CKLBLuaLibGL::luaGLBGBorder(lua_State * L) {
 
 int CKLBLuaLibGL::luaGLCreateShader(lua_State * L) {
 	CLuaState lua(L);
-	lua.retBool(false);
+	lua.print_stack();
+
+	CKLBRenderingManager& mgr = CKLBRenderingManager::getInstance();
+	// saturate, mosaic, colorize, brightness, grading
+	const char* name = lua.getString(1);
+	const char* vertexSrc = lua.getString(2);
+	const char* pixelSrc = lua.getString(3);
+
+	mgr.createShaderDefinition(name, vertexSrc, pixelSrc);
+
+	lua.retBoolean(true);
+	return 1;
+}
+
+int CKLBLuaLibGL::luaGLStackShaderParam(lua_State* L) {
+	CLuaState lua(L);
+	lua.print_stack();
+
+	CKLBRenderingManager& mgr = CKLBRenderingManager::getInstance();
+
+	const char* paramName = lua.getString(2);
+	// mgr.stackParameter(paramName, )
+
+	lua.retBoolean(true);
 	return 1;
 }
 
