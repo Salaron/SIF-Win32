@@ -56,6 +56,7 @@
 #include "CKLBUIScore.h"
 #include "CKLBUIScrollBar.h"
 #include "CKLBUISimpleItem.h"
+#include "CKLBUIShader.h"
 #include "CKLBUISWFPlayer.h"
 #include "CKLBUITextInput.h"
 #include "CKLBUIButton.h"
@@ -112,6 +113,7 @@ bool EngineTaskReference()
 	bResult = bResult && getFactoryFunc<CKLBUIScore>();
 	bResult = bResult && getFactoryFunc<CKLBUIScrollBar>();
 	bResult = bResult && getFactoryFunc<CKLBUISimpleItem>();
+	bResult = bResult && getFactoryFunc<CKLBUIShader>();
 	bResult = bResult && getFactoryFunc<CKLBUISWFPlayer>();
 	bResult = bResult && getFactoryFunc<CKLBUITextInput>();
 	bResult = bResult && getFactoryFunc<CKLBUIButton>();

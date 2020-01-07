@@ -15,6 +15,7 @@
 */
 #ifndef __GL_WRAPPER__
 #define __GL_WRAPPER__
+#define OPENGL2
 
 #include "BaseType.h"
 #include "CPFInterface.h"

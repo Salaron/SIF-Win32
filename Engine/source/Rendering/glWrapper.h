@@ -41,23 +41,21 @@
             #include <OpenGL/glext.h>
 			#define STD_OPENGL
 		#endif
+	#elif defined _WIN32
+		#include <windows.h>
+		#include "glew.h"
+		#include "glut.h"
+		#include <gl/GL.h>
+		#include "glext.h"
+		#define STD_OPENGL
 	#else
 		#ifdef OPENGL2
-		#include "GLES2/gl2.h"
-		#include "GLES2/gl2ext.h"
-		// The header file which is not in the Android environment.
-		// #include "GLES2/gl2extimg.h"
+			#include "GLES2/gl2.h"
+			#include "GLES2/gl2ext.h"
+			// The header file which is not in the Android environment.
+			// #include "GLES2/gl2extimg.h"
 		#else
-			#ifdef _WIN32
-				#include <windows.h>
-				#include "glew.h"
-				#include "glut.h"
-				#include <gl/GL.h>
-				#include "glext.h"
-				#define STD_OPENGL
-			#else
-				#include "GLES/gl.h"
-			#endif
+			#include "GLES/gl.h"
 		#endif
 	#endif
 
@@ -231,6 +229,7 @@
 	#define dglClearColor  glClearColor 
 	#define dglClearDepthf  glClearDepthf 
 	#define dglClearStencil  glClearStencil 
+	#define dglClientActiveTexture   glClientActiveTexture 
 	#define dglColorMask  glColorMask 
 	#define dglCompileShader  glCompileShader 
 	#define dglCompressedTexImage2D  glCompressedTexImage2D 
@@ -251,10 +250,12 @@
 	#define dglDepthRangef  glDepthRangef 
 	#define dglDetachShader  glDetachShader 
 	#define dglDisable  glDisable 
+	#define dglDisableClientState   glDisableClientState 
 	#define dglDisableVertexAttribArray  glDisableVertexAttribArray 
 	#define dglDrawArrays  glDrawArrays 
 	#define dglDrawElements  glDrawElements 
 	#define dglEnable  glEnable 
+	#define dglEnableClientState   glEnableClientState 
 	#define dglEnableVertexAttribArray  glEnableVertexAttribArray 
 	#define dglFinish  glFinish 
 	#define dglFlush  glFlush 
@@ -317,6 +318,8 @@
 	#define dglStencilMaskSeparate  glStencilMaskSeparate 
 	#define dglStencilOp  glStencilOp 
 	#define dglStencilOpSeparate  glStencilOpSeparate 
+	#define dglTexEnvi   glTexEnvi 
+	#define dglTexCoordPointer   glTexCoordPointer 
 	#define dglTexImage2D  glTexImage2D 
 	#define dglTexParameterf  glTexParameterf 
 	#define dglTexParameterfv  glTexParameterfv 

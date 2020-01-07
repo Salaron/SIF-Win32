@@ -121,6 +121,9 @@
     <Filter Include="Source Files\UISystem\Task\Task">
       <UniqueIdentifier>{9f5f5749-ed18-4454-bca6-81e6a135628d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\HonokaMiku">
+      <UniqueIdentifier>{977b8e8d-97a8-4518-b602-c606bbebb11a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\source\Rendering\shaderSource.inl">
@@ -594,6 +597,9 @@
       <Filter>Source Files\UISystem\Task</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\UISystem\CKLBUIPolyline2.h">
+      <Filter>Source Files\UISystem\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\UISystem\CKLBUIShader.h">
       <Filter>Source Files\UISystem\Task</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1699,9 +1705,6 @@
     <ClCompile Include="EngineStdReferenceOSS.cpp">
       <Filter>boot</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\HTTP\CKLBNetAPI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\libs\lua\lapi.c">
       <Filter>libs\Lua</Filter>
     </ClCompile>
@@ -1927,43 +1930,49 @@
     <ClCompile Include="..\..\source\LuaLib\CryptoFunc.cpp">
       <Filter>Source Files\LuaLib\modules</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\HTTP\DownloadQueue.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\Core\HonokaMiku\EN_Decrypter.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\Core\HonokaMiku\Helper.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\Core\HonokaMiku\JP_Decrypter.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\Core\HonokaMiku\V1_Decrypter.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\Core\HonokaMiku\V2_Decrypter.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\Core\HonokaMiku\V3_Decrypter.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Platform\TaskbarProgress.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\libs\lua\lua.c">
       <Filter>libs\Lua</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\Core\HonokaMiku\CN_Decrypter.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\Core\HonokaMiku\TW_Decrypter.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\UISystem\CKLBUIPolygon.cpp">
       <Filter>Source Files\UISystem\Task</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\UISystem\CKLBUIPolyline2.cpp">
+      <Filter>Source Files\UISystem\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Core\HonokaMiku\CN_Decrypter.cc">
+      <Filter>Source Files\HonokaMiku</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Core\HonokaMiku\EN_Decrypter.cc">
+      <Filter>Source Files\HonokaMiku</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Core\HonokaMiku\JP_Decrypter.cc">
+      <Filter>Source Files\HonokaMiku</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Core\HonokaMiku\TW_Decrypter.cc">
+      <Filter>Source Files\HonokaMiku</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Core\HonokaMiku\V1_Decrypter.cc">
+      <Filter>Source Files\HonokaMiku</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Core\HonokaMiku\V2_Decrypter.cc">
+      <Filter>Source Files\HonokaMiku</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Core\HonokaMiku\V3_Decrypter.cc">
+      <Filter>Source Files\HonokaMiku</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Core\HonokaMiku\Helper.cc">
+      <Filter>Source Files\HonokaMiku</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\HTTP\CKLBNetAPI.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\HTTP\DownloadQueue.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\UISystem\CKLBUIShader.cpp">
       <Filter>Source Files\UISystem\Task</Filter>
     </ClCompile>
   </ItemGroup>

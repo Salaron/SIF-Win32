@@ -192,6 +192,8 @@ typedef long long unsigned int u64;
 #define CLS_KLBUIBUTTON		(81| CLS_KLBUSERTASK)
 #define CLS_KLBPACKERCTRL	(82| CLS_KLBENGINECLASS)
 
+#define CLS_KLBUISHADER		(83| CLS_KLBUSERTASK)
+
 //
 // Engine Assets
 //
